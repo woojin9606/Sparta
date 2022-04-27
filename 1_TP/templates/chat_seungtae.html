@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="../static/css/styles.css" />
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>이승태</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script>
+          $(document).ready(function () {
+              {#keep_display();#}
+              show_comment();
+          });
+
+          function show_comment() {
+              $.ajax({
+                  type: "GET",
+                  url: "/get_comments",
+                  data: {},
+                  success: function (response) {
+                      let row = response["comments"];
+                      for (let i = 0; i < row.length; i++) {
+                          let page_name = row[i]["page_name"];
+                          if ($("#page_name").text() == page_name) {
+                              let name = row[i]["name"];
+                              let comment = row[i]["comment"];
+                              let timestamp = row[i]["timestamp"];
+                              let temp_html = `
+                            <div class="alt-header__notice-hide__guest-book" id="${timestamp}_parent" >
+                              <div class="alt-header__notice-hide__guest-book__name name_tag">${name}</div>
+                              <div class="alt-header__notice-hide__guest-book__comments comment_tag">
+                                ${comment}
+                              </div>
+                              <button class="alt-header__notice-hide__guest-book__button" onclick="delete_comment(this.id)" id="${timestamp}" type="button">X</button>
+                            </div>
+                            `;
+                              // console.log(temp_html);
+                              $("#display").append(temp_html);
+                          }
+                      }
+                  },
+              });
+          }
+
+          function delete_comment(clicked_id) {
+              let timestamp = clicked_id;
+              console.log(timestamp);
+              $.ajax({
+                  type: "DELETE",
+                  url: "/delete_comment",
+                  data: {
+                      {#name_receive:name_tag,#}
+                      {#comment_receive:comment_tag,#}
+                      {#page_name_receive:page_tag,#}
+                      timestamp_receive: timestamp
+                  },
+                  success: function (response) {
+                      alert(response["msg"]);
+                      {#window.location.reload();#}
+                      {#const div_hide = '${timestamp}_parent'#}
+                      hide(timestamp)
+                  }
+              })
+          }
+
+          function save_comment() {
+              let name = $("#name").val();
+              let comment = $("#comment").val();
+              let page_name = $("#page_name").text();
+              let timestamp = new Date().getUTCMilliseconds();
+              $.ajax({
+                  type: "POST",
+                  url: "/send_comment",
+                  data: {
+                      name_give: name,
+                      comment_give: comment,
+                      page_name_give: page_name,
+                      timestamp_give: timestamp
+                  },
+                  success: function (response) {
+                      alert(response["msg"]);
+                      // console.log(response);
+                      window.location.reload();
+                  },
+              });
+          }
+      </script>
+    </script>
+  </head>
+  <body id="chat-screen">
+    <div class="status-bar">
+      <div class="status-bar__column">
+        <span>No Service</span>
+        <i class="fas fa-wifi"></i>
+      </div>
+      <div class="status-bar__column">
+        <span>18:43</span>
+      </div>
+      <div class="status-bar__column">
+        <span>110%</span>
+        <i class="fas fa-battery-full"></i>
+        <i class="fas fa-bolt"></i>
+      </div>
+    </div>
+
+    <header class="alt-header">
+      <div class="alt-header__info">
+        <div class="alt-header__info__column">
+          <a href="nav?name=chats">
+            <i class="fas fa-angle-left fa-3x"></i>
+          </a>
+        </div>
+        <div class="alt-header__info__column">
+          <h1 class="alt-header__info__title" id="page_name">이승태</h1>
+        </div>
+        <div class="alt-header__info__column">
+          <span><i class="fas fa-search fa-lg glass"></i></span>
+          <span><i class="fas fa-bars fa-lg"></i></span>
+        </div>
+      </div>
+      <div class="alt-header__notice">
+        <div class="alt-header__notice__column">
+          <i class="fas fa-bullhorn"></i>
+        </div>
+        <div class="alt-header__notice__column">
+          <h1 class="alt-header__notice__title">
+            방명록을 작성해주세요. 당신의 소중한 한줄이 힘이됩니다!
+          </h1>
+        </div>
+        <div class="alt-header__notice__column">
+          <i
+            class="fas fa-angle-down"
+            id="click"
+            onclick="script:Display();"
+          ></i>
+        </div>
+      </div>
+      <div class="alt-header__notice-hide" id="display">
+<!--        <div class="alt-header__notice-hide__guest-book">-->
+<!--          <div class="alt-header__notice-hide__guest-book__name">백우진</div>-->
+<!--          <div class="alt-header__notice-hide__guest-book__comments">-->
+<!--            잘 봤습니다-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="alt-header__notice-hide__guest-book">-->
+<!--          <div class="alt-header__notice-hide__guest-book__name">백우진</div>-->
+<!--          <div class="alt-header__notice-hide__guest-book__comments">-->
+<!--            잘 봤습니다-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="alt-header__notice-hide__guest-book">-->
+<!--          <div class="alt-header__notice-hide__guest-book__name">백우진</div>-->
+<!--          <div class="alt-header__notice-hide__guest-book__comments">-->
+<!--            잘 봤습니다-->
+<!--          </div>-->
+      </div>
+        <div class="alt-header__notice-hide__guest-book-write" id="display2">
+            <div class="alt-header__notice-hide__guest-book-write__name">
+    <textarea
+            id="name"
+            class="form-control"
+            placeholder="닉네임"
+            style="width: 100%; height: 80%"
+    ></textarea>
+                <!-- <label for="floatingTextarea2">닉네임</label> -->
+            </div>
+            <div class="alt-header__notice-hide__guest-book-write__comments">
+    <textarea
+            id="comment"
+            class="form-control"
+            placeholder="남길 말"
+            style="width: 80%; height: 80%"
+    ></textarea>
+                <!-- <label for="floatingTextarea2">코멘트</label> -->
+            </div>
+            <div class="alt-header__notice-hide__guest-book-write__button">
+                <button onclick="save_comment()" type="button" style="width: 100%; height: 100%">입력</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-screen main-chat">
+      <div class="chat__timestamp">Sunday, January 9, 2022</div>
+      <div class="message-row message-row--own">
+        <div class="message-row__content">
+          <div class="message__info">
+            <span class="message__bubble">Q1. 자기소개해주세요.</span>
+            <span class="message__time">14:11</span>
+          </div>
+        </div>
+      </div>
+      <div class="message-row">
+        <img src="../static/emoji/stl.png" />
+        <div class="message-row__content">
+          <span class="message_author">이승태</span>
+          <div class="message__info">
+            <span class="message__bubble">안녕하세요. 4조 이승태입니다.<br> 저는 건축공학 전공자입니다.
+              시츄를 키우고 있으며 취미는 테니스/사이클 입니다.<br>게임은
+              좋아하지만 안한지 꽤 되었습니다.<br> 시간이 나면 유튜브, 트위치도 보지만
+              대부분 테니스 대회를 보는데 시간을 할애합니다.</span>
+            <span class="message__time">14:11</span>
+          </div>
+        </div>
+      </div>
+      <div class="message-row message-row--own">
+        <div class="message-row__content">
+          <div class="message__info">
+            <span class="message__bubble">Q2. MBTI가 어떻게 되시나요?</span>
+            <span class="message__time">14:11</span>
+          </div>
+        </div>
+      </div>
+      <div class="message-row">
+        <img src="../static/emoji/stl.png" />
+        <div class="message-row__content">
+          <span class="message_author">이승태</span>
+          <div class="message__info">
+            <span class="message__bubble">ISTJ입니다.</span>
+            <span class="message__time">14:11</span>
+          </div>
+        </div>
+      </div>
+      <div class="message-row message-row--own">
+        <div class="message-row__content">
+          <div class="message__info">
+            <span class="message__bubble">Q3. 객관적으로 살펴본 자신의 장점은?</span>
+            <span class="message__time">14:11</span>
+          </div>
+        </div>
+      </div>
+      <div class="message-row">
+        <img src="../static/emoji/stl.png" />
+        <div class="message-row__content">
+          <span class="message_author">이승태</span>
+          <div class="message__info">
+            <span class="message__bubble">1) 개인의 역할에 충실<br>학부 생활때 10번이 넘는 조별과제를 하며 항상 스카웃 제의를 받았습니다.<br><br>
+              2) 많은 프로젝트 경험<br>총 4개월이 넘는 장기 프로젝트 3번, 1~2개월 프로젝트을 다수 진행하며 팀원들과 소통하는 방법을 익혔습니다.<br><br>
+              3) 여러 단체 구성원으로써의 활동<br>학부 생활부터 축구, 야구 등 협력을 중시하는 운동을 했습니다.<br> 또한
+              테니스 동호회, 스터디 그룹 등 다양한 대외활동을 했습니다.<br> 이를 통해 여러사람들과 밀접한 유대감을 쌓았습니다.
+            </span>
+            <span class="message__time">14:11</span>
+          </div>
+        </div>
+      </div>
+      <div class="message-row message-row--own">
+        <div class="message-row__content">
+          <div class="message__info">
+            <span class="message__bubble">Q4. 협업을 할때 승태님의 스타일은 어떠신가요?</span>
+            <span class="message__time">14:11</span>
+          </div>
+        </div>
+      </div>
+      <div class="message-row">
+        <img src="../static/emoji/stl.png" />
+        <div class="message-row__content">
+          <span class="message_author">이승태</span>
+          <div class="message__info">
+            <span class="message__bubble">1) 같은 공간에서 협업을 추구합니다. 궁금한 것이 있을때 바로
+              물어볼 수 있었으면 합니다.<br> 특히 회의의 경우 대면으로 하는것을
+              선호합니다.<br><br> 2) 맡은 역할은 책임집니다. 반대로 팀원들이 맡은 역할만
+              다하면 무엇을 하든 신경쓰지 않습니다.<br> 술을 마셔도 좋고 잠을
+              청하셔도 좋고 놀러 나가셔도 좋습니다.<br><br>3) 결과물을 중시하는
+              편입니다. 튜터님한테 조언을 받기 위해선 결과물이 중요하다고
+              생각합니다.<br><br>4) 친목 도모를 위해 팀 회식을 선호합니다. 물론 너무
+              친해지면 사라집니다.</span>
+            <span class="message__time">14:11</span>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <form class="reply">
+      <div class="reply__column">
+        <i class="far fa-plus-square fa-lg"></i>
+      </div>
+      <div class="reply__column">
+        <input type="text" placeholder="Write a message" />
+        <i class="far fa-smile-wink fa-lg"></i>
+        <button>
+          <i class="fas fa-arrow-up"></i>
+        </button>
+      </div>
+    </form>
+
+
+
+    <script
+      src="https://kit.fontawesome.com/a77969e492.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="../static/script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,28 @@
+/*css 다모아둔 곳*/
+@import "reset.css";/**/
+@import "variables.css";/*초기화면 시조시조톡*/
+
+/* Components */
+@import "components/status-bar.css";/*상단상태창바*/
+@import "components/nav-bar.css";/*네비게이션바*/
+@import "components/screen-header.css";/*상단메뉴바*/
+@import "components/user-component.css";/*개별채팅창*/
+@import "components/badge.css";/*카톡알림개수*/
+@import "components/alt-screen-header.css";/*내부채팅창 상단*/
+
+
+/* Screens */
+@import "screens/friends.css";
+@import "screens/chats.css";/*채팅창*/
+@import "screens/chat.css";/*채팅창내부*/
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  height: 1000vh;
+  color: #2e363e;
+}
+
+.main-screen {
+  padding: 0px var(--horizontal-space);
+}

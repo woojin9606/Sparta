@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="../static/css/styles.css"/>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>한건희</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            {#keep_display();#}
+            show_comment();
+        });
+
+        function show_comment() {
+            $.ajax({
+                type: "GET",
+                url: "/get_comments",
+                data: {},
+                success: function (response) {
+                    let row = response["comments"];
+                    for (let i = 0; i < row.length; i++) {
+                        let page_name = row[i]["page_name"];
+                        if ($("#page_name").text() == page_name) {
+                            let name = row[i]["name"];
+                            let comment = row[i]["comment"];
+                            let timestamp = row[i]["timestamp"];
+                            let temp_html = `
+                            <div class="alt-header__notice-hide__guest-book" id="${timestamp}_parent" >
+                              <div class="alt-header__notice-hide__guest-book__name name_tag">${name}</div>
+                              <div class="alt-header__notice-hide__guest-book__comments comment_tag">
+                                ${comment}
+                              </div>
+                              <button class="alt-header__notice-hide__guest-book__button" onclick="delete_comment(this.id)" id="${timestamp}" type="button">X</button>
+                            </div>
+                            `;
+                            // console.log(temp_html);
+                            $("#display").append(temp_html);
+                        }
+                    }
+                },
+            });
+        }
+
+        function delete_comment(clicked_id) {
+            let timestamp = clicked_id;
+            console.log(timestamp);
+            $.ajax({
+                type: "DELETE",
+                url: "/delete_comment",
+                data: {
+                    {#name_receive:name_tag,#}
+                    {#comment_receive:comment_tag,#}
+                    {#page_name_receive:page_tag,#}
+                    timestamp_receive: timestamp
+                },
+                success: function (response) {
+                    alert(response["msg"]);
+                    {#window.location.reload();#}
+                    {#const div_hide = '${timestamp}_parent'#}
+                    hide(timestamp)
+                }
+            })
+        }
+
+        function save_comment() {
+            let name = $("#name").val();
+            let comment = $("#comment").val();
+            let page_name = $("#page_name").text();
+            let timestamp = new Date().getUTCMilliseconds();
+            $.ajax({
+                type: "POST",
+                url: "/send_comment",
+                data: {
+                    name_give: name,
+                    comment_give: comment,
+                    page_name_give: page_name,
+                    timestamp_give: timestamp
+                },
+                success: function (response) {
+                    alert(response["msg"]);
+                    // console.log(response);
+                    window.location.reload();
+                },
+            });
+        }
+    </script>
+</head>
+<body id="chat-screen">
+<div class="status-bar">
+    <div class="status-bar__column">
+        <span>No Service</span>
+        <i class="fas fa-wifi"></i>
+    </div>
+    <div class="status-bar__column">
+        <span>18:43</span>
+    </div>
+    <div class="status-bar__column">
+        <span>85%</span>
+        <i class="fas fa-battery-full"></i>
+        <i class="fas fa-bolt"></i>
+    </div>
+</div>
+
+<header class="alt-header">
+      <div class="alt-header__info">
+        <div class="alt-header__info__column">
+          <a href="nav?name=chats">
+            <i class="fas fa-angle-left fa-3x"></i>
+          </a>
+        </div>
+        <div class="alt-header__info__column">
+          <h1 class="alt-header__info__title" id="page_name">한건희</h1>
+        </div>
+        <div class="alt-header__info__column">
+          <span><i class="fas fa-search fa-lg glass"></i></span>
+          <span><i class="fas fa-bars fa-lg"></i></span>
+        </div>
+      </div>
+      <div class="alt-header__notice">
+        <div class="alt-header__notice__column">
+          <i class="fas fa-bullhorn"></i>
+        </div>
+        <div class="alt-header__notice__column">
+          <h1 class="alt-header__notice__title">
+            방명록을 작성해주세요. 당신의 소중한 한줄이 힘이됩니다!
+          </h1>
+        </div>
+        <div class="alt-header__notice__column">
+          <i
+            class="fas fa-angle-down"
+            id="click"
+            onclick="script:Display();"
+          ></i>
+        </div>
+      </div>
+      <div class="alt-header__notice-hide" id="display">
+<!--        <div class="alt-header__notice-hide__guest-book">-->
+<!--          <div class="alt-header__notice-hide__guest-book__name">백우진</div>-->
+<!--          <div class="alt-header__notice-hide__guest-book__comments">-->
+<!--            잘 봤습니다-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="alt-header__notice-hide__guest-book">-->
+<!--          <div class="alt-header__notice-hide__guest-book__name">백우진</div>-->
+<!--          <div class="alt-header__notice-hide__guest-book__comments">-->
+<!--            잘 봤습니다-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="alt-header__notice-hide__guest-book">-->
+<!--          <div class="alt-header__notice-hide__guest-book__name">백우진</div>-->
+<!--          <div class="alt-header__notice-hide__guest-book__comments">-->
+<!--            잘 봤습니다-->
+<!--          </div>-->
+      </div>
+    <div class="alt-header__notice-hide__guest-book-write" id="display2">
+        <div class="alt-header__notice-hide__guest-book-write__name">
+    <textarea
+            id="name"
+            class="form-control"
+            placeholder="닉네임"
+            style="width: 100%; height: 80%"
+    ></textarea>
+            <!-- <label for="floatingTextarea2">닉네임</label> -->
+        </div>
+        <div class="alt-header__notice-hide__guest-book-write__comments">
+    <textarea
+            id="comment"
+            class="form-control"
+            placeholder="남길 말"
+            style="width: 80%; height: 80%"
+    ></textarea>
+            <!-- <label for="floatingTextarea2">코멘트</label> -->
+        </div>
+        <div class="alt-header__notice-hide__guest-book-write__button">
+            <button onclick="save_comment()" type="button" style="width: 100%; height: 100%">입력</button>
+        </div>
+    </div>
+    </header>
+
+<main class="main-screen main-chat">
+    <div class="chat__timestamp">Wednesday, April 20, 2022</div>
+
+    <div class="message-row message-row--own">
+        <div class="message-row__content">
+            <div class="message__info">
+            <span class="message__bubble"
+            >Q1. 자기소개해주세요.</span
+            >
+                <span class="message__time">14:11</span>
+            </div>
+        </div>
+    </div>
+  <div class="message-row">
+        <img src="../static/emoji/gun.jpg"/>
+        <div class="message-row__content">
+            <span class="message_author">한건희</span>
+            <div class="message__info">
+                <span class="message__bubble">4조 한건희입니다.좋아하는 것 - 드라마시청 & 게임 & 노래<br></br> 스릴러,코믹멜로 좋아하는데 추천해주시면 꼭 볼게요!<br></br> 게임은 LOL을 자주하는데 시간날 때 같이 하실 분은 연락 주세요!<br></br>
+TMI - A형 & 제주 1년 거주 & LOL 티어 골드소심한 A형이라 삐지면 뒤끝있으니까 조심하세용!<br></br>
+제주도에서 이것저것 아르바이트하면서 1년정도 지내본 경험이 있어요!
+그리고 LOL 골드 티어인데 잘 하시는 분 계시면 도와주세요...브론즈까지는 제가 도와드릴 수도?..<br></br>
+아직은 코딩 왕초보이지만 이번 캠프를 통해 성장해서 어딜 가도 환영받는 개발자 인재상이 되고싶습니다! </span>
+                <span class="message__time">14:11</span>
+            </div>
+        </div>
+    </div>
+<div class="message-row message-row--own">
+        <div class="message-row__content">
+            <div class="message__info">
+            <span class="message__bubble"
+            >Q2. MBTI가 어떻게 되시나요?</span
+            >
+                <span class="message__time">14:11</span>
+            </div>
+        </div>
+    </div>
+
+  <div class="message-row">
+        <img src="../static/emoji/gun.jpg"/>
+        <div class="message-row__content">
+            <span class="message_author">한건희</span>
+            <div class="message__info">
+                <span class="message__bubble">열정적인 중재자 INFP입니다!<br></br>
+세계 인구의 4%가 이 유형이라고 하는데! 차분하고 창의적이며 낭만적인 성향으로 보이지만 내면은 신념이 깊다 하는데.....그냥 소심한 낭만주의자에요.</span>
+                <span class="message__time">14:11</span>
+            </div>
+        </div>
+    </div>
+<div class="message-row message-row--own">
+        <div class="message-row__content">
+            <div class="message__info">
+            <span class="message__bubble"
+            >Q3. 객관적으로 살펴본 자신의 장점은?</span
+            >
+                <span class="message__time">14:11</span>
+            </div>
+        </div>
+    </div>
+
+  <div class="message-row">
+        <img src="../static/emoji/gun.jpg"/>
+        <div class="message-row__content">
+            <span class="message_author">한건희</span>
+            <div class="message__info">
+                <span class="message__bubble">주변 친구들한테 "너는 툴툴대면서도 잘 도와주는 츤데레다"라고 많이 들어요!<br></br> 도움을 줄 수 있는 것이라면 잘 도와준답니다!</span>
+                <span class="message__time">14:11</span>
+            </div>
+        </div>
+    </div>
+  <div class="message-row message-row--own">
+        <div class="message-row__content">
+            <div class="message__info">
+            <span class="message__bubble"
+            >Q4. 협업을 할때 건희님의 스타일은 어떠신가요?</span
+            >
+                <span class="message__time">14:11</span>
+            </div>
+        </div>
+    </div>
+  <div class="message-row">
+        <img src="../static/emoji/gun.jpg"/>
+        <div class="message-row__content">
+            <span class="message_author">한건희</span>
+            <div class="message__info">
+                <span class="message__bubble">협업하는 일을 할때 상대방의 의견을 존중하는 편이고 그 의견에 +@가 될만한 것들을 생각해보고 피드백 나눠 좀더 나은 방향으로 가는것을 추구하고있습니다.!</span>
+                <span class="message__time">14:11</span>
+            </div>
+        </div>
+    </div>
+</main>
+
+<form class="reply">
+    <div class="reply__column">
+        <i class="far fa-plus-square fa-lg"></i>
+    </div>
+    <div class="reply__column">
+        <input type="text" placeholder="Write a message"/>
+        <i class="far fa-smile-wink fa-lg"></i>
+        <button>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+</form>
+
+<!--    <div id="no-mobile">-->
+<!--      <span>Your screen is to big ಥ_ಥ</span>-->
+<!--    </div>-->
+
+<script
+        src="https://kit.fontawesome.com/a77969e492.js"
+        crossorigin="anonymous"
+></script>
+<script src="../static/script.js"></script>
+</body>
+</html>

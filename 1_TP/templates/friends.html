@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="../static/css/styles.css" />
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Friends</title>
+  </head>
+  <body>
+    <div class="status-bar">
+      <div class="status-bar__column">
+        <span>No Service</span>
+        <i class="fas fa-wifi"></i>
+      </div>
+      <div class="status-bar__column">
+        <span>18:43</span>
+      </div>
+      <div class="status-bar__column">
+        <span>110%</span>
+        <i class="fas fa-battery-full"></i>
+        <i class="fas fa-bolt"></i>
+      </div>
+    </div>
+
+    <header class="screen-header">
+      <h1 class="screen-header__title">
+        <img src="../static/teamlogo/bannerxl.png" />
+      </h1>
+      <div class="screen-header__icons">
+        <span><i class="fas fa-search fa-lg"></i></span>
+        <span><i class="fas fa-music fa-lg"></i></span>
+        <span
+          ><a><i class="fas fa-cog fa-lg"></i></a
+        ></span>
+      </div>
+    </header>
+
+    <a id="friends-display-link">
+
+    </a>
+
+    <main class="main-screen">
+      <a href="chat?name=sijosijo">
+      <div class="user-component" >
+        <div class="user-component__column">
+          <img
+            src="../static/teamlogo/logoxl.png"
+            class="user-component__avatar user-component__avatar--xl"
+          />
+          <div class="user-component__text">
+            <h4 class="user-component__title">시조시조</h4>
+            <!-- <h6 class="user-component__subtitle">hi this is test</h6> -->
+          </div>
+        </div>
+        <div class="user-componet__column"></div>
+      </div>
+      </a>
+      <div class="friends-screen__channel">
+        <div class="friends-screen__channel-header">
+          <span>Team member (4)</span>
+          <i class="fas fa-chevron-up fa-xs"></i>
+        </div>
+        <a href="chat?name=woojin">
+        <div class="user-component">
+          <div class="user-component__column">
+            <img
+              src="../static/emoji/baek.png"
+              class="user-component__avatar user-component__avatar--sm"
+            />
+            <div class="user-component__text">
+              <h4 class="user-component__title user-component__title--not-bold">
+                백우진
+              </h4>
+            </div>
+          </div>
+          <div class="user-componet__column">
+          </div>
+        </div>
+        </a>
+        <a href="chat?name=seungtae">
+        <div class="user-component">
+          <div class="user-component__column">
+            <img
+              src="../static/emoji/stl.png"
+              class="user-component__avatar user-component__avatar--sm"
+            />
+            <div class="user-component__text">
+              <h4 class="user-component__title user-component__title--not-bold">
+                이승태
+              </h4>
+            </div>
+          </div>
+          <div class="user-componet__column">
+          </div>
+        </div>
+        </a>
+        <a href="chat?name=gunhee">
+        <div class="user-component">
+          <div class="user-component__column">
+            <img
+              src="../static/emoji/gun.jpg"
+              class="user-component__avatar user-component__avatar--sm"
+            />
+            <div class="user-component__text">
+              <h4 class="user-component__title user-component__title--not-bold">
+                한건희
+              </h4>
+            </div>
+          </div>
+          <div class="user-componet__column">
+          </div>
+        </div>
+        </a>
+        <a href="chat?name=yunji">
+        <div class="user-component">
+          <div class="user-component__column">
+            <img
+              src="../static/emoji/lyj.png"
+              class="user-component__avatar user-component__avatar--sm"
+            />
+            <div class="user-component__text">
+              <h4 class="user-component__title user-component__title--not-bold">
+                이윤지
+              </h4>
+            </div>
+          </div>
+          <div class="user-componet__column">
+          </div>
+        </div>
+        </a>
+      </div>
+    </main>
+
+    <nav class="nav">
+      <ul class="nav__list">
+        <li class="nav__btn">
+          <a class="nav__link" href="nav?name=friends"
+            ><i class="fas fa-user fa-2x"></i
+          ></a>
+        </li>
+        <li class="nav__btn">
+          <a class="nav__link" href="nav?name=chats">
+            <span class="nav__notification badge">1</span>
+            <i class="far fa-comment fa-2x"></i>
+          </a>
+        </li>
+        <li class="nav__btn">
+          <a class="nav__link">
+            <span class="nav__notification badge_nav">공사중</span>
+            <i class="fas fa-search fa-2x"></i
+          ></a>
+        </li>
+        <li class="nav__btn">
+          <a class="nav__link" >
+            <span class="nav__notification badge_nav">공사중</span>
+            <span class="nav__dot">●</span>
+            <i class="fas fa-ellipsis-h fa-2x"></i
+          ></a>
+        </li>
+      </ul>
+    </nav>
+
+    <div id="splash-screen">
+      <img src="../static/teamlogo/teamlogo.png" />
+    </div>
+
+
+
+    <script
+      src="https://kit.fontawesome.com/a77969e492.js"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

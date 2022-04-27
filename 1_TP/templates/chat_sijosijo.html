@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="../static/css/styles.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>시조시조</title>
+{#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>#}
+    <script>
+        $(document).ready(function () {
+            {#keep_display();#}
+            show_comment();
+        });
+
+        function show_comment() {
+            $.ajax({
+                type: "GET",
+                url: "/get_comments",
+                data: {},
+                success: function (response) {
+                    let row = response["comments"];
+                    for (let i = 0; i < row.length; i++) {
+                        let page_name = row[i]["page_name"];
+                        if ($("#page_name").text() == page_name) {
+                            let name = row[i]["name"];
+                            let comment = row[i]["comment"];
+                            let timestamp = row[i]["timestamp"];
+                            let temp_html = `
+                            <div class="alt-header__notice-hide__guest-book" id="${timestamp}_parent" >
+                              <div class="alt-header__notice-hide__guest-book__name name_tag">${name}</div>
+                              <div class="alt-header__notice-hide__guest-book__comments comment_tag">
+                                ${comment}
+                              </div>
+                              <button class="alt-header__notice-hide__guest-book__button" onclick="delete_comment(this.id)" id="${timestamp}" type="button">X</button>
+                            </div>
+                            `;
+                            // console.log(temp_html);
+                            $("#display").append(temp_html);
+                        }
+                    }
+                },
+            });
+        }
+
+        function delete_comment(clicked_id) {
+            let timestamp = clicked_id;
+            console.log(timestamp);
+            $.ajax({
+                type: "DELETE",
+                url: "/delete_comment",
+                data: {
+                    {#name_receive:name_tag,#}
+                    {#comment_receive:comment_tag,#}
+                    {#page_name_receive:page_tag,#}
+                    timestamp_receive: timestamp
+                },
+                success: function (response) {
+                    alert(response["msg"]);
+                    {#window.location.reload();#}
+                    {#const div_hide = '${timestamp}_parent'#}
+                    hide(timestamp)
+                }
+            })
+        }
+
+        function save_comment() {
+            let name = $("#name").val();
+            let comment = $("#comment").val();
+            let page_name = $("#page_name").text();
+            let timestamp = new Date().getUTCMilliseconds();
+            $.ajax({
+                type: "POST",
+                url: "/send_comment",
+                data: {
+                    name_give: name,
+                    comment_give: comment,
+                    page_name_give: page_name,
+                    timestamp_give: timestamp
+                },
+                success: function (response) {
+                    alert(response["msg"]);
+                    // console.log(response);
+                    window.location.reload();
+                },
+            });
+        }
+        function q1() {
+            let temp_html = `<div class="message-row message-row--own">
+        <div class="message-row__content">
+          <div class="message__info">
+            <span class="message__bubble">Q1. 시조시조팀에대해 알려주세요!</span>
+            <span class="message__time">14:11</span>
+          </div>
+        </div>
+      </div>
+    <div class="message-row">
+        <img src="../static/teamlogo/logoxl.png" />
+        <div class="message-row__content">
+          <span class="message_author">시조시조</span>
+          <div class="message__info">
+            <span class="message__bubble">시조시조팀은 스파르타 내일배움캠프를 통해 만들어진 팀입니다.<br>
+저희에 관해 자세히 알고싶으시다면 블로그를 방문해주세요!<br>
+(이름을 클릭하시면 블로그로 이동됩니다!)<br><br>
+<a href="https://velog.io/@woojin9606">백우진</a><br><br>
+<a href="https://softl.tistory.com/">이승태</a><br><br>
+<a href="https://velog.io/@leetyj4682">이윤지</a><br><br>
+<a href="https://hee94.tistory.com/">한건희</a></span>
+            <span class="message__time">14:11</span>
+          </div>
+        </div>
+      </div>`
+            $('#main').append(temp_html);
+        }
+
+        function q2() {
+            let temp_html = `<div class="message-row message-row--own">
+        <div class="message-row__content">
+          <div class="message__info">
+            <span class="message__bubble">Q2. 시조시조팀만의 특징은 무엇인가요?</span>
+            <span class="message__time">14:11</span>
+          </div>
+        </div>
+      </div>
+    <div class="message-row">
+        <img src="../static/teamlogo/logoxl.png" />
+        <div class="message-row__content">
+          <span class="message_author">시조시조</span>
+          <div class="message__info">
+            <span class="message__bubble">저희 시조시조팀의 특징은 자유로움입니다!<br>
+시조시조팀은 자율 출퇴실제를 운영중이며 자신이 맡은 부분은 확실히 해내는<br>
+모두가 책임감있는 팀입니다.</span>
+            <span class="message__time">14:11</span>
+          </div>
+        </div>
+      </div>`
+            $('#main').append(temp_html);
+        }
+
+        function q3() {
+            let temp_html = `<div class="message-row message-row--own">
+        <div class="message-row__content">
+          <div class="message__info">
+            <span class="message__bubble">Q3. 시조시조팀이 추구하는 궁극적인 목표는 무엇인가요?</span>
+            <span class="message__time">14:11</span>
+          </div>
+        </div>
+      </div>
+    <div class="message-row">
+        <img src="../static/teamlogo/logoxl.png" />
+        <div class="message-row__content">
+          <span class="message_author">시조시조</span>
+          <div class="message__info">
+            <span class="message__bubble">저희 시조시조팀의 목표는 열심히 공부해서 4개월 뒤에는<br>
+            좋은 인연도 얻어가며<br>
+네카라쿠배에 취업하는게 목표입니다!</span>
+            <span class="message__time">14:11</span>
+          </div>
+        </div>
+      </div>`
+            $('#main').append(temp_html);
+        }
+
+        function q4() {
+            let temp_html = `<div class="message-row message-row--own">
+        <div class="message-row__content">
+          <div class="message__info">
+            <span class="message__bubble">Q4. 시조시조팀의 약속된 일정을 알려주세요!</span>
+            <span class="message__time">14:11</span>
+          </div>
+        </div>
+      </div>
+    <div class="message-row">
+        <img src="../static/teamlogo/logoxl.png" />
+        <div class="message-row__content">
+          <span class="message_author">시조시조</span>
+          <div class="message__info">
+            <span class="message__bubble">~09:00 출석 체크<br>
+12:00~13:00 점심 시간<br>
+15:00~15:10 진행상황 체크<br>
+18:00~19:00 저녁 시간<br>
+19:00~21:00 질문 및 학습내용 공유<br>
+21:00~ 퇴근!!!</span>
+            <span class="message__time">14:11</span>
+          </div>
+        </div>
+      </div>`
+            $('#main').append(temp_html);
+        }
+    </script>
+</head>
+<body id="chat-screen">
+<div class="status-bar">
+    <div class="status-bar__column">
+        <span>No Service</span>
+        <i class="fas fa-wifi"></i>
+    </div>
+    <div class="status-bar__column">
+        <span>18:43</span>
+    </div>
+    <div class="status-bar__column">
+        <span>110%</span>
+        <i class="fas fa-battery-full"></i>
+        <i class="fas fa-bolt"></i>
+    </div>
+</div>
+
+<header class="alt-header">
+      <div class="alt-header__info">
+        <div class="alt-header__info__column">
+          <a href="nav?name=chats">
+            <i class="fas fa-angle-left fa-3x"></i>
+          </a>
+        </div>
+        <div class="alt-header__info__column">
+          <h1 class="alt-header__info__title" id="page_name">시조시조</h1>
+        </div>
+        <div class="alt-header__info__column">
+          <span><i class="fas fa-search fa-lg glass"></i></span>
+          <span><i class="fas fa-bars fa-lg"></i></span>
+        </div>
+      </div>
+      <div class="alt-header__notice">
+        <div class="alt-header__notice__column">
+          <i class="fas fa-bullhorn"></i>
+        </div>
+        <div class="alt-header__notice__column">
+          <h1 class="alt-header__notice__title">
+            방명록을 작성해주세요. 당신의 소중한 한줄이 힘이됩니다!
+          </h1>
+        </div>
+        <div class="alt-header__notice__column">
+          <i
+            class="fas fa-angle-down"
+            id="click"
+            onclick="script:Display();"
+          ></i>
+        </div>
+      </div>
+      <div class="alt-header__notice-hide" id="display">
+<!--        <div class="alt-header__notice-hide__guest-book">-->
+<!--          <div class="alt-header__notice-hide__guest-book__name">백우진</div>-->
+<!--          <div class="alt-header__notice-hide__guest-book__comments">-->
+<!--            잘 봤습니다-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="alt-header__notice-hide__guest-book">-->
+<!--          <div class="alt-header__notice-hide__guest-book__name">백우진</div>-->
+<!--          <div class="alt-header__notice-hide__guest-book__comments">-->
+<!--            잘 봤습니다-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="alt-header__notice-hide__guest-book">-->
+<!--          <div class="alt-header__notice-hide__guest-book__name">백우진</div>-->
+<!--          <div class="alt-header__notice-hide__guest-book__comments">-->
+<!--            잘 봤습니다-->
+<!--          </div>-->
+      </div>
+    <div class="alt-header__notice-hide__guest-book-write" id="display2">
+        <div class="alt-header__notice-hide__guest-book-write__name">
+    <textarea
+            id="name"
+            class="form-control"
+            placeholder="닉네임"
+            style="width: 100%; height: 80%"
+    ></textarea>
+            <!-- <label for="floatingTextarea2">닉네임</label> -->
+        </div>
+        <div class="alt-header__notice-hide__guest-book-write__comments">
+    <textarea
+            id="comment"
+            class="form-control"
+            placeholder="남길 말"
+            style="width: 80%; height: 80%"
+    ></textarea>
+            <!-- <label for="floatingTextarea2">코멘트</label> -->
+        </div>
+        <div class="alt-header__notice-hide__guest-book-write__button">
+            <button onclick="save_comment()" type="button" style="width: 100%; height: 100%">입력</button>
+        </div>
+    </div>
+    </header>
+
+<main class="main-screen main-chat" id="main">
+    <div class="chat__timestamp">Sunday, January 9, 2022</div>
+    <div class="message-row">
+        <img src="../static/teamlogo/logoxl.png"/>
+        <div class="message-row__content">
+            <span class="message_author">시조시조</span>
+            <div class="message__info">
+                <span class="message__bubble">질문을 선택해주세요!</span>
+                <span class="message__time">14:11</span>
+            </div>
+        </div>
+    </div>
+    <div class="message-row">
+        <img src="../static/teamlogo/logoxl.png"/>
+        <div class="message-row__content">
+            <span class="message_author">시조시조</span>
+            <div class="message__info">
+                <span class="message__bubble" onclick="q1()">시조시조팀</span>
+                <span class="message__time">14:11</span>
+            </div>
+        </div>
+    </div>
+    <div class="message-row">
+        <img src="../static/teamlogo/logoxl.png"/>
+        <div class="message-row__content">
+            <span class="message_author">시조시조</span>
+            <div class="message__info">
+                <span class="message__bubble" onclick="q2()">시조시조팀 특징</span>
+                <span class="message__time">14:11</span>
+            </div>
+        </div>
+    </div>
+    <div class="message-row">
+        <img src="../static/teamlogo/logoxl.png"/>
+        <div class="message-row__content">
+            <span class="message_author">시조시조</span>
+            <div class="message__info">
+                <span class="message__bubble" onclick="q3()">시조시조팀 목표</span>
+                <span class="message__time">14:11</span>
+            </div>
+        </div>
+    </div>
+    <div class="message-row">
+        <img src="../static/teamlogo/logoxl.png"/>
+        <div class="message-row__content">
+            <span class="message_author">시조시조</span>
+            <div class="message__info">
+                <span class="message__bubble" onclick="q4()">시조시조팀 약속</span>
+                <span class="message__time">14:11</span>
+            </div>
+        </div>
+    </div>
+</main>
+
+<form class="reply">
+    <div class="reply__column">
+        <i class="far fa-plus-square fa-lg"></i>
+    </div>
+    <div class="reply__column">
+        <input type="text" placeholder="Write a message"/>
+        <i class="far fa-smile-wink fa-lg"></i>
+        <button>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+</form>
+
+
+<script
+        src="https://kit.fontawesome.com/a77969e492.js"
+        crossorigin="anonymous"
+></script>
+<script src="../static/script.js"></script>
+</body>
+</html>
