@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Instagram Clone</title>
+    <title>Instagram</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="shortcut icon" href="assets/favicon.svg" type="image/x-icon"/>
@@ -175,7 +175,7 @@
                                     <div class="item active">
                                         <img
                                                 class="post__media"
-                                                src="assets/insta-clone.png"
+                                                src="assets/woodindin.png"
                                                 alt="Post Content"
                                         />
                                     </div>
@@ -183,7 +183,7 @@
                                     <div class="item">
                                         <img
                                                 class="post__media"
-                                                src="assets/insta-clone.png"
+                                                src="assets/woodindin.png"
                                                 alt="Post Content"
                                         />
                                     </div>
@@ -191,7 +191,7 @@
                                     <div class="item">
                                         <img
                                                 class="post__media"
-                                                src="assets/insta-clone.png"
+                                                src="assets/woodindin.png"
                                                 alt="Post Content"
                                         />
                                     </div>
@@ -278,6 +278,12 @@
                                   퍼가요~♥
                                 </span>
                             </div>
+                            <div>
+                                <input type="text" style="width: 90%;height: 100%;">
+                                <button type="button" class="btn btn-primary btn-sm" style="background-color: black; float: right;">Post</button>
+                            </div>
+
+
                             <!-- 지난 시간 text -->
                             <span class="post__date-time">30분 전</span>
                         </div>
@@ -329,7 +335,7 @@
                                     <div class="item active">
                                         <img
                                                 class="post__media"
-                                                src="assets/insta-clone.png"
+                                                src="assets/woodindin.png"
                                                 alt="Post Content"
                                         />
                                     </div>
@@ -337,7 +343,7 @@
                                     <div class="item">
                                         <img
                                                 class="post__media"
-                                                src="assets/insta-clone.png"
+                                                src="assets/woodindin.png"
                                                 alt="Post Content"
                                         />
                                     </div>
@@ -345,7 +351,7 @@
                                     <div class="item">
                                         <img
                                                 class="post__media"
-                                                src="assets/insta-clone.png"
+                                                src="assets/woodindin.png"
                                                 alt="Post Content"
                                         />
                                     </div>
@@ -432,6 +438,10 @@
                                   퍼가요~♥
                                 </span>
                             </div>
+                            <div>
+                                <input type="text" style="width: 90%;height: 100%;">
+                                <button type="button" class="btn btn-primary btn-sm" style="background-color: black; float: right;">Post</button>
+                            </div>
                             <!-- 지난 시간 text -->
                             <span class="post__date-time">30분 전</span>
                         </div>
@@ -457,7 +467,7 @@
                             >
                         </div>
                         <!-- 게시물 옵션 버튼 -->
-                        <button class="post__more-options">
+                        <button id="a" class="post__more-options">
                             <svg aria-label="옵션 더 보기" class="_8-yf5 " color="#262626" fill="#262626" height="24"
                                  role="img" viewBox="0 0 24 24" width="24">
                                 <circle cx="12" cy="12" r="1.5"></circle>
@@ -483,7 +493,7 @@
                                     <div class="item active">
                                         <img
                                                 class="post__media"
-                                                src="assets/insta-clone.png"
+                                                src="assets/woodindin.png"
                                                 alt="Post Content"
                                         />
                                     </div>
@@ -491,7 +501,7 @@
                                     <div class="item">
                                         <img
                                                 class="post__media"
-                                                src="assets/insta-clone.png"
+                                                src="assets/woodindin.png"
                                                 alt="Post Content"
                                         />
                                     </div>
@@ -499,7 +509,7 @@
                                     <div class="item">
                                         <img
                                                 class="post__media"
-                                                src="assets/insta-clone.png"
+                                                src="assets/woodindin.png"
                                                 alt="Post Content"
                                         />
                                     </div>
@@ -586,6 +596,10 @@
                                   퍼가요~♥
                                 </span>
                             </div>
+                            <div>
+                                <input type="text" style="width: 90%;height: 100%;">
+                                <button type="button" class="btn btn-primary btn-sm" style="background-color: black; float: right;">Post</button>
+                            </div>
                             <!-- 지난 시간 text -->
                             <span class="post__date-time">30분 전</span>
                         </div>
@@ -600,14 +614,14 @@
                 <!-- 내 프로필 사진 -->
                 <a
                         href="#"
-                        target="_blank"
+
                         class="side-menu__user-avatar"
                 >
                     <img src="assets/woodindin.png" alt="User Picture"/>
                 </a>
                 <!-- 내 프로필 이름 및 소개 -->
                 <div class="side-menu__user-info">
-                    <a href="#" target="_blank"
+                    <a href="#"
                     >woodindin</a
                     >
                     <span>우진🐳</span>
@@ -680,6 +694,18 @@
         </section>
     </section>
 </main>
+
+<div id="my_modal">
+    <div class="modal_btn">신고</div>
+    <div class="modal_btn">팔로우 취소</div>
+    <div class="modal_btn">게시물로 이동</div>
+    <div class="modal_btn">태그된 계정</div>
+    <div class="modal_btn">공유 대상...</div>
+    <div class="modal_btn">링크 복사</div>
+    <div class="modal_btn">퍼가기</div>
+    <div id="modal_close_btn" class="modal_btn">취소</div>
+</div>
+
 
 <nav class="navbar">
     <!-- 모바일 화면 집모양 이미지 -->
@@ -794,5 +820,67 @@
         </div>
     </button>
 </nav>
+<script>
+    function modal(id) {
+        var zIndex = 9999;
+        var modal = document.getElementById(id);
+
+        // 모달 div 뒤에 희끄무레한 레이어
+        var bg = document.createElement('div');
+        bg.setStyle({
+            position: 'fixed',
+            zIndex: zIndex,
+            left: '0px',
+            top: '0px',
+            width: '100%',
+            height: '100%',
+            overflow: 'auto',
+            // 레이어 색갈은 여기서 바꾸면 됨
+            backgroundColor: 'rgba(0,0,0,0.4)'
+        });
+        document.body.append(bg);
+
+        // 닫기 버튼 처리, 시꺼먼 레이어와 모달 div 지우기
+        document.getElementById('modal_close_btn').addEventListener('click', function () {
+            bg.remove();
+            modal.style.display = 'none';
+        });
+
+        modal.setStyle({
+            position: 'fixed',
+            display: 'block',
+            boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+
+            // 시꺼먼 레이어 보다 한칸 위에 보이기
+            zIndex: zIndex + 1,
+
+            // div center 정렬
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            msTransform: 'translate(-50%, -50%)',
+            webkitTransform: 'translate(-50%, -50%)'
+        });
+
+
+    }
+
+    // Element 에 style 한번에 오브젝트로 설정하는 함수 추가
+    Element.prototype.setStyle = function (styles) {
+        for (var k in styles) this.style[k] = styles[k];
+        return this;
+    };
+
+    modal_event = document.getElementsByClassName('post__more-options')
+    for (var i = 0; i < modal_event.length; i++) {
+        modal_event[i].addEventListener('click', function () {
+            modal('my_modal');
+        });
+    }
+
+    // 모달창 띄우기
+
+
+</script>
 </body>
 </html>
