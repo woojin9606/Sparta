@@ -11,6 +11,8 @@ class Product(models.Model):
     thumbnail = models.FileField("썸네일", upload_to="product/")
     post_start_date = models.DateField("게시 시작 일")
     post_end_date = models.DateField("게시 종료 일")
+
+    is_active = models.BooleanField("활성화 여부", default=True)
     
     def __str__(self):
         return f"{self.user.username} 님이 올리신 제품입니다."
