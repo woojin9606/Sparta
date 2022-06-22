@@ -13,6 +13,15 @@ class ProductSerializer(serializers.ModelSerializer):
    review_set = serializers.SerializerMethodField()
    rating = serializers.SerializerMethodField('scoresAverage')
 
+   def get_review_set(self, obj):
+         review_set = Review.objects.filter(product=obj).order_by("-create_date").first()
+         
+         if review_set is not None:
+            review_set_serializer = ReviewSerializer(review_set)
+            return review_set_serializer.data
+
+         return {}
+
 
    def scoresAverage(self, obj):
         length = obj.review_set.count()
@@ -40,12 +49,13 @@ class ProductSerializer(serializers.ModelSerializer):
    def create(self, validated_data):     
         # User object 생성
         today = datetime.today().strftime("%Y-%m-%d")
-
-
+        
         validated_data["description"] += f'{today}에 등록된 상품입니다.'
         product = Product(**validated_data)
+
         product.save()
-        return validated_data
+
+        return product
 
    def update(self, instance, validated_data):
       today = datetime.today().strftime("%Y-%m-%d")
@@ -61,13 +71,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
    class Meta:
         model = Product
-        fields = "__all__"#('id', 'review_set', 'rating', 'title', 'description', 'thumbnail', 'post_start_date', 'post_end_date', 'user_id', 'is_active', 'create_date')
+        fields = "__all__"
 
-   def get_review_set(self, obj):
-      review_set = Review.objects.filter(product=obj).order_by("-create_date").first()
-      if review_set is not None:
-         review_set_serializer = ReviewSerializer(review_set)
-         return review_set_serializer.data
-
-      return {}
-
+   
+   
