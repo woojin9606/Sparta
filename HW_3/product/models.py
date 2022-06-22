@@ -16,3 +16,13 @@ class Product(models.Model):
     
     def __str__(self):
         return f"{self.user.username} 님이 올리신 제품입니다."
+
+class Review(models.Model):
+    user = models.ForeignKey('user.User', verbose_name="작성자", on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, verbose_name="상품", on_delete=models.CASCADE)
+    content = models.CharField("내용", max_length=200)
+    rating = models.IntegerField("평점")
+    create_date = models.DateTimeField("작성일", auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} 님이 올리신 리뷰입니다."
